@@ -7,10 +7,25 @@ const Menu = electron.Menu
 app.on('ready', _ => {
     new BrowserWindow()
 
+    const name = electron.app.getName()
     const template = [
         {
-            label: electron.app.getName()
+            label: name, 
+            submenu: [{
+                label: `About ${name}`,
+                click: _ => {
+                    console.log('clicked about')
+                }, 
+                role: 'about'
+            },{
+                type: 'separator'
+            },{
+                label: 'Quit',
+                click: _ => { app.quit() }, 
+                accelerator: 'Cmd+Q'
+            }]
         }
     ]
-    Menu.buildFromTemplate(template)
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
 })
